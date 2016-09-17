@@ -27,12 +27,12 @@ class Translator
 		return new static($resource);
 	}
 
-	public function translate($key, array $placeholders = [])
+	public function translate($key, $placeholders = null)
 	{
 		return $this->translateChoice($key, null, $placeholders);
 	}
 
-	public function translateChoice($key, $count, array $placeholders = [])
+	public function translateChoice($key, $count, $placeholders = null)
 	{
 		$choice = $this->getChoice($this->resource->find($key), $count);
 

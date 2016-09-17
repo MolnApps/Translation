@@ -19,21 +19,23 @@ trait TranslationResolver
 		return Translator::make($resource);
 	}
 
-	public function translate($key)
+	public function translate($key, $placeholders = null, $locale = null)
 	{
-		return $this->callTranslatorMethodWithFallback('translate', [$key]);
+		return $this->callTranslatorMethodWithFallback('translate', [$key, $placeholders], $locale);
 	}
 
-	public function translateChoice($key, $count, array $placeholders = [])
+	public function translateChoice($key, $count, $placeholders = null, $locale = null)
 	{
 		$args = [$key, $count, $placeholders];
 
-		return $this->callTranslatorMethodWithFallback('translateChoice', $args);
+		return $this->callTranslatorMethodWithFallback('translateChoice', $args, $locale);
 	}
 
-	private function callTranslatorMethodWithFallback($methodName, $args)
+	private function callTranslatorMethodWithFallback($methodName, $args, $locale = null)
 	{
-		return $this->callTranslatorMethod($methodName, $args, $this->getLocale())
+		$locale = $locale ?: $this->getLocale();
+
+		return $this->callTranslatorMethod($methodName, $args, $locale)
 			?: $this->callTranslatorMethod($methodName, $args, $this->getFallbackLocale());
 	}
 
